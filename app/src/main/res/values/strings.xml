@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">Bottega Del Caffe</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="developer_email">fede.sed74@gmail.com</string>
+    <string name="caffe_type">Tipi di caffè</string>
+    <string name="coffe_type_name">Tipo di caffè</string>
+    <string name="coffee_type_descr">Descrizione del tipo di caffé</string>
+    <string name="save">Salva</string>
+    <string name="error_empty_name">Il nome non può esser vuoto</string>
+    <string name="change_player_name_hint">Cambia nome giocatore</string>
+    <string name="error_duplicate_name">Name already exists</string>
+</resources>

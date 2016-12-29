@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/margin_default_half">
+
+    <EditText
+        android:id="@+id/no_of_coffees"
+        android:layout_width="36dp"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:text="0" />
+
+    <ImageView
+        android:id="@+id/delete_player_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_gravity="right"
+        android:background="?android:selectableItemBackground"
+        android:padding="@dimen/delete_button_padding"
+        android:src="@drawable/ic_delete_black_24dp" />
+
+    <TextView
+        android:id="@+id/coffe_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@id/delete_player_button"
+        android:layout_toRightOf="@id/no_of_coffees"
+        android:textColor="@android:color/black"
+        tools:text="Coffee Type" />
+
+    <TextView
+        android:id="@+id/coffee_descr"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/coffe_name"
+        android:layout_toLeftOf="@id/delete_player_button"
+        android:layout_toRightOf="@id/no_of_coffees"
+        android:lines="5"
+        android:scrollbars="vertical"
+        android:textSize="12sp"
+        tools:text="Coffee description" />
+
+
+</RelativeLayout>
