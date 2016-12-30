@@ -1,11 +1,9 @@
 package com.example.federicomarchesi.bottegadelcaffe;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
+import android.speech.tts.TextToSpeech;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.ShareCompat;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -16,15 +14,18 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     DBHelper mydb;
+    ArrayList<CoffeeType> arrayCoffeeType;
+    CoffeeAdapter coffeeAdapter;
+    TextToSpeech textToSpeech;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,9 +38,16 @@ public class MainActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                onEditPlayerName();
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
+                onCreateNewCoffeeType();
+//
+            }
+        });
+        FloatingActionButton speak = (FloatingActionButton) findViewById(R.id.speak);
+        speak.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                orderCoffees();
+//
             }
         });
 
@@ -54,14 +62,43 @@ public class MainActivity extends AppCompatActivity
         intDB();
     }
 
+    public void onPause() {
+        if (textToSpeech != null) {
+            textToSpeech.stop();
+            textToSpeech.shutdown();
+        }
+        super.onPause();
+    }
+
+    private void orderCoffees() {
+        textToSpeech = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int status) {
+                if (status != TextToSpeech.ERROR) {
+                    textToSpeech.setLanguage(Locale.ITALIAN);
+                    String toSpeak = "3 2 macchia con, un america";
+                    textToSpeech.speak(toSpeak, TextToSpeech.QUEUE_FLUSH, null);
+                    textToSpeech.speak(toSpeak, TextToSpeech.QUEUE_FLUSH, null, null);
+                }
+            }
+        });
+
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        mydb.saveAllCoffeeTypesToDB(arrayCoffeeType);
+    }
+
     private void intDB() {
         mydb = new DBHelper(this);
-        ArrayList<CoffeeType> array_list = mydb.getAllCoffeeTypes();
+        arrayCoffeeType = mydb.getAllCoffeeTypes();
 
-        CoffeeAdapter adapter = new CoffeeAdapter(this, array_list);
+        coffeeAdapter = new CoffeeAdapter(this, arrayCoffeeType);
 
         ListView obj = (ListView) findViewById(R.id.list);
-        obj.setAdapter(adapter);
+        obj.setAdapter(coffeeAdapter);
 
         obj.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -139,7 +176,7 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    private void onEditPlayerName() {
+    private void onCreateNewCoffeeType() {
 //        final Player player = getCurrentPlayer();
         InputDialog inputDialog = new InputDialog(this, R.string.coffe_type_name, R.string.coffe_type_name);
 //        inputDialog.setInitialInput(player.getName());
@@ -158,9 +195,11 @@ public class MainActivity extends AppCompatActivity
 
             @Override
             public void onConfirm(String newCoffeeType, String newCoffeeDescr) {
-                DBHelper db = new DBHelper(MainActivity.this);
-                db.insertCoffeeType(newCoffeeType, newCoffeeDescr);
-                Toast.makeText(MainActivity.this, "records: " + db.numberOfRows(), Toast.LENGTH_SHORT).show();
+//                DBHelper db = new DBHelper(MainActivity.this);
+//                db.insertCoffeeType(newCoffeeType, newCoffeeDescr);
+                arrayCoffeeType.add(new CoffeeType(newCoffeeType, newCoffeeDescr));
+                coffeeAdapter.notifyDataSetChanged();
+//                Toast.makeText(MainActivity.this, "records: " + db.numberOfRows(), Toast.LENGTH_SHORT).show();
             }
         });
         inputDialog.show();

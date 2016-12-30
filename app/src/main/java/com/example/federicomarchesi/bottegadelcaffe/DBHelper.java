@@ -11,6 +11,7 @@ import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.BaseColumns;
+import android.widget.ArrayAdapter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -57,13 +58,17 @@ public class DBHelper extends SQLiteOpenHelper {
         return numRows;
     }
 
-    public boolean updateCoffeeType(Integer id, String coffeeType, String descr) {
+    public int updateCoffeeType(Integer id, String coffeeType, String descr) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(DBCoffeeType.COLUMN_NAME_COFFEE_TYPE, coffeeType);
         contentValues.put(DBCoffeeType.COLUMN_NAME_COFFEE_DESCRIPTION, descr);
-        db.update(DBCoffeeType.TABLE_NAME, contentValues, DBCoffeeType._ID + " = ? ", new String[]{Integer.toString(id)});
-        return true;
+        int rowsUpdated = db.update(DBCoffeeType.TABLE_NAME, contentValues,
+                DBCoffeeType._ID + " = ? ", new String[]{Integer.toString(id)});
+        if (rowsUpdated == 0) {
+            insertCoffeeType(coffeeType, descr);
+        }
+        return rowsUpdated;
     }
 
     public Integer deleteCoffetType(Integer id) {
@@ -80,20 +85,35 @@ public class DBHelper extends SQLiteOpenHelper {
         Cursor res = db.rawQuery("select * from " + DBCoffeeType.TABLE_NAME, null);
         res.moveToFirst();
 
-        while (res.isAfterLast() == false) {
+        while (!res.isAfterLast()) {
 //            DBCoffeeTypes.add( new DBCoffeeType(res.getString(res.getColumnIndex(DBCoffeeType.COLUMN_NAME_COFFEE_TYPE)),
 //                    res.getString(res.getColumnIndex(DBCoffeeType.COLUMN_NAME_COFFEE_DESCRIPTION))));
-            String colName = res.getString(res.getColumnIndex(DBCoffeeType.COLUMN_NAME_COFFEE_TYPE));
-            String colDescr = res.getString(res.getColumnIndex(DBCoffeeType.COLUMN_NAME_COFFEE_DESCRIPTION));
+            String colName = res.getString(res.getColumnIndex(
+                    DBCoffeeType.COLUMN_NAME_COFFEE_TYPE));
+            String colDescr = res.getString(res.getColumnIndex(
+                    DBCoffeeType.COLUMN_NAME_COFFEE_DESCRIPTION));
+            int colId = res.getInt(res.getColumnIndex(
+                    DBCoffeeType._ID));
 
-            DBCoffeeTypes.add(new CoffeeType(colName, colDescr));
+            DBCoffeeTypes.add(new CoffeeType(colName, colDescr, colId));
             res.moveToNext();
         }
         return DBCoffeeTypes;
     }
 
+    public boolean saveAllCoffeeTypesToDB(ArrayList<CoffeeType> coffeeTypes) {
+        boolean successfulOperation = false;
+        for (int i = 0; i < coffeeTypes.size(); i++) {
+            CoffeeType item = coffeeTypes.get(i);
+            successfulOperation =
+                    updateCoffeeType(item.getCoffeeId(), item.getCoffeeName(),
+                            item.getCoffeeDescription()) > 0;
+        }
+
+        return successfulOperation;
+    }
     private static class DBCoffeeType implements BaseColumns {
-        public static final String DATABASE_NAME = "coffees.db";
+        static final String DATABASE_NAME = "coffees.db";
         static final String TABLE_NAME = "coffee_type";
         static final String COLUMN_NAME_COFFEE_TYPE = "coffee_type";
         static final String COLUMN_NAME_COFFEE_DESCRIPTION = "coffee_descr";

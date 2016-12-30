@@ -9,6 +9,7 @@ import java.util.ArrayList;
 public class CoffeeType {
     private String mCoffeeName;
     private String mCoffeeDescription;
+    private int mTableId;
 
 
     public CoffeeType(String name, String descr) {
@@ -16,6 +17,15 @@ public class CoffeeType {
         mCoffeeDescription = descr;
     }
 
+    public CoffeeType(String name, String descr, int id) {
+        mCoffeeName = name;
+        mCoffeeDescription = descr;
+        mTableId = id;
+    }
+
+    int getCoffeeId() {
+        return mTableId;
+    }
     String getCoffeeName() {
         return mCoffeeName;
     }

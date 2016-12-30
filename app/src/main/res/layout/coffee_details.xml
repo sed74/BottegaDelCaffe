@@ -13,7 +13,7 @@
         android:text="0" />
 
     <ImageView
-        android:id="@+id/delete_player_button"
+        android:id="@+id/delete_coffee_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
@@ -26,7 +26,7 @@
         android:id="@+id/coffe_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_toLeftOf="@id/delete_player_button"
+        android:layout_toLeftOf="@id/delete_coffee_button"
         android:layout_toRightOf="@id/no_of_coffees"
         android:textColor="@android:color/black"
         tools:text="Coffee Type" />
@@ -36,9 +36,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/coffe_name"
-        android:layout_toLeftOf="@id/delete_player_button"
+        android:layout_toLeftOf="@id/delete_coffee_button"
         android:layout_toRightOf="@id/no_of_coffees"
         android:lines="5"
+        android:minLines="2"
         android:scrollbars="vertical"
         android:textSize="12sp"
         tools:text="Coffee description" />
