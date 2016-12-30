@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    >
+
+    <ImageButton
+        android:id="@+id/btn_decrease"
+        android:layout_width="@dimen/picker_button_size"
+        android:layout_height="@dimen/picker_button_size"
+        android:src="@drawable/ic_remove"
+        android:background="@drawable/selector_primary_large"
+        />
+
+    <TextView
+        android:id="@+id/txt_number"
+        android:layout_width="32dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="0"
+        android:textColor="@android:color/black"
+        android:layout_gravity="center"
+        />
+
+    <ImageButton
+        android:id="@+id/btn_increase"
+        android:layout_width="@dimen/picker_button_size"
+        android:layout_height="@dimen/picker_button_size"
+        android:background="@drawable/selector_primary_large"
+        android:src="@drawable/ic_add"
+        />
+
+</LinearLayout>

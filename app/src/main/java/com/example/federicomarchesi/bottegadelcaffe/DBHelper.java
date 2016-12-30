@@ -58,13 +58,14 @@ public class DBHelper extends SQLiteOpenHelper {
         return numRows;
     }
 
-    public int updateCoffeeType(Integer id, String coffeeType, String descr) {
+    public int updateCoffeeType(long id, String coffeeType, String descr) {
+        int mID = (int) id;
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(DBCoffeeType.COLUMN_NAME_COFFEE_TYPE, coffeeType);
         contentValues.put(DBCoffeeType.COLUMN_NAME_COFFEE_DESCRIPTION, descr);
         int rowsUpdated = db.update(DBCoffeeType.TABLE_NAME, contentValues,
-                DBCoffeeType._ID + " = ? ", new String[]{Integer.toString(id)});
+                DBCoffeeType._ID + " = ? ", new String[]{Integer.toString(mID)});
         if (rowsUpdated == 0) {
             insertCoffeeType(coffeeType, descr);
         }

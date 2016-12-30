@@ -13,4 +13,12 @@
     <string name="error_empty_name">Il nome non può esser vuoto</string>
     <string name="change_player_name_hint">Cambia nome giocatore</string>
     <string name="error_duplicate_name">Name already exists</string>
+    <string name="caffe_normale">Caffè</string>
+    <string name="caffe_macchiato">Caffè macchiato</string>
+    <string name="caffe_orzo">Caffè d\'orzo</string>
+    <string name="caffe_americano">Caffè americano</string>
+    <string name="macchiato">Macchiato</string>
+    <string name="macchiatoCon">Cacao</string>
+    <string name="in_tazza_grande">In tazza grande</string>
+
 </resources>

@@ -14,7 +14,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -23,7 +25,7 @@ import java.util.Locale;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     DBHelper mydb;
-    ArrayList<CoffeeType> arrayCoffeeType;
+    ArrayList<CoffeeType> arrayCoffeeType = new ArrayList<>();
     CoffeeAdapter coffeeAdapter;
     TextToSpeech textToSpeech;
 
@@ -38,7 +40,8 @@ public class MainActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                onCreateNewCoffeeType();
+//                onCreateNewCoffeeType();
+                addNewCoffee();
 //
             }
         });
@@ -59,7 +62,29 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        intDB();
+        init();
+    }
+
+    private void addNewCoffee() {
+
+        arrayCoffeeType.add(new CoffeeType());
+        coffeeAdapter.notifyDataSetChanged();
+    }
+
+    private void init(){
+        arrayCoffeeType.add(new CoffeeType());
+
+        coffeeAdapter = new CoffeeAdapter(this, arrayCoffeeType);
+
+
+
+        ListView obj = (ListView) findViewById(R.id.list);
+        obj.setAdapter(coffeeAdapter);
+
+
+
+//        coffeeAdapter.notifyDataSetChanged();
+
     }
 
     public void onPause() {

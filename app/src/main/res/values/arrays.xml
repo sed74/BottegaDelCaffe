@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="coffee_arrays">
+        <item>@string/caffe_normale</item>
+        <item>@string/caffe_americano</item>
+        <item>@string/caffe_orzo</item>
+    </string-array>
+
+</resources>

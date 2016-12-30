@@ -9,4 +9,6 @@
     <dimen name="margin_default_half">8dp</dimen>
     <dimen name="margin_default">16dp</dimen>
     <dimen name="delete_button_padding">16dp</dimen>
+    <dimen name="picker_button_size">36dp</dimen>
+    <dimen name="margin_default_quarter">4dp</dimen>
 </resources>

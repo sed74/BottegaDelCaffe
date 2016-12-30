@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
+
+    <LinearLayout
+        android:id="@+id/linear_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/margin_default_quarter">
+
+        <Spinner
+            android:id="@+id/caffe_name_spinner"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:text="@string/caffe_normale"
+            android:textColor="@android:color/black"
+            android:textSize="16dp"
+            android:textStyle="bold" />
+
+        <com.example.federicomarchesi.bottegadelcaffe.NumberPickerView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+        </com.example.federicomarchesi.bottegadelcaffe.NumberPickerView>
+    </LinearLayout>
+
+    <CheckBox
+        android:id="@+id/is_macchiato"
+        style="@style/CheckBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/linear_layout"
+        android:text="@string/macchiato" />
+
+    <CheckBox
+        android:id="@+id/is_macchiato_con"
+        style="@style/CheckBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/linear_layout"
+        android:layout_toRightOf="@id/is_macchiato"
+        android:text="@string/macchiatoCon" />
+
+    <CheckBox
+        android:id="@+id/is_in_tazza_grande"
+        style="@style/CheckBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/linear_layout"
+        android:layout_toRightOf="@id/is_macchiato_con"
+        android:text="@string/in_tazza_grande" />
+
+</RelativeLayout>
