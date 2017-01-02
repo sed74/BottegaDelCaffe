@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="coffee_arrays">
-        <item>@string/caffe_normale</item>
-        <item>@string/caffe_americano</item>
-        <item>@string/caffe_orzo</item>
+        <item>Caffè Normale</item>
+        <item>Caffè Americano</item>
+        <item>Caffè d\'Orzo</item>
+    </string-array>
+
+    <string-array name="coffee_arrays_spoken">
+        <item></item>
+        <item>america</item>
+        <item>orzo</item>
     </string-array>
 
 </resources>

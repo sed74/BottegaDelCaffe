@@ -11,7 +11,6 @@ import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.BaseColumns;
-import android.widget.ArrayAdapter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -107,7 +106,7 @@ public class DBHelper extends SQLiteOpenHelper {
         for (int i = 0; i < coffeeTypes.size(); i++) {
             CoffeeType item = coffeeTypes.get(i);
             successfulOperation =
-                    updateCoffeeType(item.getCoffeeId(), item.getCoffeeName(),
+                    updateCoffeeType(item.getCoffeeTypeId(), item.getCoffeeName(),
                             item.getCoffeeDescription()) > 0;
         }
 

@@ -1,7 +1,5 @@
 package com.example.federicomarchesi.bottegadelcaffe;
 
-import java.util.ArrayList;
-
 /**
  * Created by federico.marchesi on 29/12/2016.
  */
@@ -12,7 +10,8 @@ public class CoffeeType {
     private boolean mIsMacchiato = false;
     private boolean mIsMacchiatoCon = false;
     private boolean mIsInTazzaGrande = false;
-    private long mTableId;
+    private long mCoffeeTypeId;
+    private int mNumberOrdered;
 
 
     public CoffeeType(String name, String descr) {
@@ -31,55 +30,65 @@ public class CoffeeType {
         mIsMacchiato = isMacchiato;
         mIsMacchiatoCon = isMacchiatoCon;
         mIsInTazzaGrande = isInTazzaGrande;
+
     }
 
     public CoffeeType(String name, String descr, int id) {
         mCoffeeName = name;
         mCoffeeDescription = descr;
-        mTableId = id;
+        mCoffeeTypeId = id;
     }
 
-    long getCoffeeId() {
-        return mTableId;
+    long getCoffeeTypeId() {
+        return mCoffeeTypeId;
+    }
+
+    void setCoffeeTypeId(long tableId) {
+        this.mCoffeeTypeId = tableId;
     }
 
     String getCoffeeName() {
         return mCoffeeName;
     }
 
-    String getCoffeeDescription() {
-        return mCoffeeDescription;
-    }
-
-    public boolean getIsInTazzaGrande() {
-        return mIsInTazzaGrande;
-    }
-
-    public boolean getIsMacchiato() {
-        return mIsMacchiato;
-    }
-
-    public boolean getIsMacchiatoCon() {
-        return mIsMacchiatoCon;
-    }
-
     public void setCoffeeName(String coffeeName) {
         this.mCoffeeName = coffeeName;
     }
 
-    public void setIsInTazzaGrande(boolean isInTazzaGrande) {
+    String getCoffeeDescription() {
+        return mCoffeeDescription;
+    }
+
+    boolean getIsInTazzaGrande() {
+        return mIsInTazzaGrande;
+    }
+
+    void setIsInTazzaGrande(boolean isInTazzaGrande) {
         this.mIsInTazzaGrande = isInTazzaGrande;
     }
 
-    public void setIsMacchiato(boolean isMacchiato) {
+    boolean getIsMacchiato() {
+        return mIsMacchiato;
+    }
+
+    void setIsMacchiato(boolean isMacchiato) {
         this.mIsMacchiato = isMacchiato;
     }
 
-    public void setIsMacchiatoCon(boolean isMacchiatoCon) {
+    boolean getIsMacchiatoCon() {
+        return mIsMacchiatoCon;
+    }
+
+    void setIsMacchiatoCon(boolean isMacchiatoCon) {
         this.mIsMacchiatoCon = isMacchiatoCon;
     }
 
-    public void setTableId(long tableId) {
-        this.mTableId = tableId;
+    int getNumberOrdered() {
+        return mNumberOrdered;
     }
+
+    void setNumberOrdered(int numberOrdered) {
+        this.mNumberOrdered = numberOrdered;
+    }
+
 }

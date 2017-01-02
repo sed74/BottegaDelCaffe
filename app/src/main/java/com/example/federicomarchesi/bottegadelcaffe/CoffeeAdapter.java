@@ -1,9 +1,7 @@
 package com.example.federicomarchesi.bottegadelcaffe;
 
 import android.content.Context;
-import android.icu.lang.UCharacter;
 import android.support.annotation.NonNull;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,8 +13,6 @@ import android.widget.Spinner;
 
 import java.util.ArrayList;
 
-import static com.example.federicomarchesi.bottegadelcaffe.R.styleable.Spinner;
-
 /**
  * Created by federico.marchesi on 29/12/2016.
  */
@@ -24,6 +20,7 @@ import static com.example.federicomarchesi.bottegadelcaffe.R.styleable.Spinner;
 public class CoffeeAdapter extends ArrayAdapter<CoffeeType> {
 
     private ArrayList<CoffeeType> mCoffeTypes;
+
 
     public CoffeeAdapter(Context context, ArrayList<CoffeeType> coffeeArray) {
         super(context, 0, coffeeArray);
@@ -43,76 +40,115 @@ public class CoffeeAdapter extends ArrayAdapter<CoffeeType> {
         final CoffeeType currentCoffee = getItem(position);
 
         Spinner spinner = (Spinner) listItemView.findViewById(R.id.caffe_name_spinner);
-
-        // Create an ArrayAdapter using the string array and a default spinner layout
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),
-                R.array.coffee_arrays, android.R.layout.simple_spinner_item);
-        // Specify the layout to use when the list of choices appears
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        // Apply the adapter to the spinner
-        spinner.setAdapter(adapter);
-
+        if (convertView == null) {
+            // Create an ArrayAdapter using the string array and a default spinner layout
+            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),
+                    R.array.coffee_arrays, android.R.layout.simple_spinner_item);
+            // Specify the layout to use when the list of choices appears
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            // Apply the adapter to the spinner
+            spinner.setAdapter(adapter);
+        }
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 //                mCoffeTypes.get(position).setCoffeeName(parent.getItemAtPosition(position).toString());
-                mCoffeTypes.get(position).setTableId(id);
+                currentCoffee.setCoffeeTypeId(id);
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-//                mCoffeTypes.get(position).setTableId();
+//                mCoffeTypes.get(position).setCoffeeTypeId();
             }
         });
 
         CheckBox isMacchiato = (CheckBox) listItemView.findViewById(R.id.is_macchiato);
-        isMacchiato.setChecked(currentCoffee.getIsMacchiato());
+
         isMacchiato.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                currentCoffee.setIsMacchiato(isChecked);
+                mCoffeTypes.get(position).setIsMacchiato(isChecked);
                 notifyDataSetChanged();
             }
         });
+        isMacchiato.setChecked(currentCoffee.getIsMacchiato());
 
         CheckBox isMacchiatoCon = (CheckBox) listItemView.findViewById(R.id.is_macchiato_con);
-        isMacchiatoCon.setChecked(currentCoffee.getIsMacchiatoCon());
+
         isMacchiatoCon.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                currentCoffee.setIsMacchiatoCon(isChecked);
+                mCoffeTypes.get(position).setIsMacchiatoCon(isChecked);
+                notifyDataSetChanged();
             }
         });
+        isMacchiatoCon.setChecked(currentCoffee.getIsMacchiatoCon());
 
         CheckBox isInTazzaGrande = (CheckBox) listItemView.findViewById(R.id.is_in_tazza_grande);
-        isInTazzaGrande.setChecked(currentCoffee.getIsInTazzaGrande());
+
         isInTazzaGrande.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                currentCoffee.setIsInTazzaGrande(isChecked);
+                mCoffeTypes.get(position).setIsInTazzaGrande(isChecked);
+                notifyDataSetChanged();
             }
         });
+        isInTazzaGrande.setChecked(currentCoffee.getIsInTazzaGrande());
+
+        NumberPickerView numberPickerView = (NumberPickerView)
+                listItemView.findViewById(R.id.number_picker);
+        numberPickerView.setMinValue(0);
+        numberPickerView.setMaxValue(10);
 
 
-        //        TextView txtView = (TextView) listItemView.findViewById(R.id.coffe_name);
-//
-//        txtView.setText(TextUtils.isEmpty(currentCoffee.getCoffeeName()) ? "" : currentCoffee.getCoffeeName());
-//
-//        txtView = (TextView) listItemView.findViewById(R.id.coffee_descr);
-//        txtView.setText(TextUtils.isEmpty(currentCoffee.getCoffeeDescription()) ? "" : currentCoffee.getCoffeeDescription());
-//
-//        ImageView deleteCoffee = (ImageView) listItemView.findViewById(R.id.delete_coffee_button);
-//
-//        deleteCoffee.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                mCoffeTypes.remove(position);
-//                notifyDataSetChanged();
-//            }
-//        });
-
+        numberPickerView.setOnValueChangeListener(new NumberPickerView.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPickerView picker, int oldValue, int newValue) {
+                mCoffeTypes.get(position).setNumberOrdered(newValue);
+            }
+        });
         // Return the whole list item layout (containing 2 TextViews) so that it can be shown in
         // the ListView.
         return listItemView;
     }
+
+    public String getCoffeeOrder() {
+        // Recupero Caffè normali
+        int totCoffeeNormali = getCoffeeNumberByType(0);
+        int totCoffeeInGrande = getCoffeeNumberByType(0, false, false, true);
+        int totCoffeeMacchiati = getCoffeeNumberByType(0, true, false, false);
+        int totAmerica = getCoffeeNumberByType(1);
+
+        // Recupero caffé
+
+        String caffe = totCoffeeNormali + ", " +
+                (totCoffeeMacchiati > 0 ? totCoffeeMacchiati + " macchia, " : "") +
+                (totCoffeeInGrande > 0 ? totCoffeeInGrande + " in grande, " : "") +
+                (totAmerica > 0 ? totAmerica + " america, " : "");
+
+        return caffe;
+    }
+
+    private int getCoffeeNumberByType(long coffeeTypeId, boolean isMacchiato,
+                                      boolean isMacchiatoCon, boolean isInTazzaGrande) {
+        int noOfCoffee = 0;
+        for (CoffeeType coffe : mCoffeTypes) {
+            if (coffe.getCoffeeTypeId() == coffeeTypeId &&
+                    coffe.getIsMacchiato() == isMacchiato &&
+                    coffe.getIsMacchiatoCon() == isMacchiatoCon &&
+                    coffe.getIsInTazzaGrande() == isInTazzaGrande)
+                noOfCoffee += coffe.getNumberOrdered();
+        }
+        return noOfCoffee;
+    }
+
+    private int getCoffeeNumberByType(long coffeeTypeId) {
+        int noOfCoffee = 0;
+        for (CoffeeType coffe : mCoffeTypes) {
+            if (coffe.getCoffeeTypeId() == coffeeTypeId && !coffe.getIsInTazzaGrande())
+                noOfCoffee += coffe.getNumberOrdered();
+        }
+        return noOfCoffee;
+    }
+
 }

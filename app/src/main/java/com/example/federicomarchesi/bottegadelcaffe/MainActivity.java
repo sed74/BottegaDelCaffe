@@ -1,10 +1,11 @@
 package com.example.federicomarchesi.bottegadelcaffe;
 
 import android.content.Intent;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.support.design.widget.FloatingActionButton;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -13,21 +14,61 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Spinner;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+    private final int CHECK_CODE = 0x1;
     DBHelper mydb;
     ArrayList<CoffeeType> arrayCoffeeType = new ArrayList<>();
     CoffeeAdapter coffeeAdapter;
     TextToSpeech textToSpeech;
+    boolean isFabShowing;
+    private Speaker speaker;
+
+    /**
+     * Handles playback of all the sound files
+     */
+    private TextToSpeech mTextToSpeech;
+
+    /**
+     * Handles audio focus when playing a sound file
+     */
+    private AudioManager mAudioManager;
+
+    /**
+     * This listener gets triggered when the {@link MediaPlayer} has completed
+     * playing the audio file.
+     */
+    /**
+     * This listener gets triggered whenever the audio focus changes
+     * (i.e., we gain or lose audio focus because of another app or device).
+     */
+    private AudioManager.OnAudioFocusChangeListener mOnAudioFocusChangeListener =
+            new AudioManager.OnAudioFocusChangeListener() {
+                @Override
+                public void onAudioFocusChange(int i) {
+                    switch (i) {
+                        case AudioManager.AUDIOFOCUS_GAIN:
+                        case AudioManager.AUDIOFOCUS_GAIN_TRANSIENT:
+//                            startMediaPlayer();
+                            break;
+                        case AudioManager.AUDIOFOCUS_LOSS:
+                        case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK:
+//                            releaseMediaPlayer();
+                            break;
+                        case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT:
+//                            pauseMediaPlayer();
+                            break;
+                    }
+
+                }
+            };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,14 +117,10 @@ public class MainActivity extends AppCompatActivity
 
         coffeeAdapter = new CoffeeAdapter(this, arrayCoffeeType);
 
-
-
         ListView obj = (ListView) findViewById(R.id.list);
         obj.setAdapter(coffeeAdapter);
+        checkTTS();
 
-
-
-//        coffeeAdapter.notifyDataSetChanged();
 
     }
 
@@ -100,12 +137,28 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onInit(int status) {
                 if (status != TextToSpeech.ERROR) {
-                    textToSpeech.setLanguage(Locale.ITALIAN);
-                    String toSpeak = "3 2 macchia con, un america";
-                    textToSpeech.speak(toSpeak, TextToSpeech.QUEUE_FLUSH, null);
-                    textToSpeech.speak(toSpeak, TextToSpeech.QUEUE_FLUSH, null, null);
+                    String coffees = "";
+                    String[] menuArray = getResources().getStringArray(R.array.coffee_arrays);
+
+                    for (int i = 0; i < arrayCoffeeType.size(); i++) {
+                        long coffeIndex = arrayCoffeeType.get(i).getCoffeeTypeId();
+
+                        coffees += menuArray[(int) coffeIndex] + "\t";
+                        coffees += arrayCoffeeType.get(i).getIsMacchiato() + "\t";
+                        coffees += arrayCoffeeType.get(i).getIsMacchiatoCon() + "\t";
+                        coffees += arrayCoffeeType.get(i).getIsInTazzaGrande() + "\t";
+                        coffees += arrayCoffeeType.get(i).getNumberOrdered() + "\n";
+                    }
+
+                    coffees = coffeeAdapter.getCoffeeOrder();
+                    Toast.makeText(MainActivity.this, "Caffè normali: " + coffees
+                            , Toast.LENGTH_SHORT).show();
+                    speaker.allow(true);
+                    speaker.speak(coffees);
+
                 }
             }
+
         });
 
     }
@@ -113,7 +166,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onStop() {
         super.onStop();
-        mydb.saveAllCoffeeTypesToDB(arrayCoffeeType);
+//        mydb.saveAllCoffeeTypesToDB(arrayCoffeeType);
     }
 
     private void intDB() {
@@ -228,5 +281,30 @@ public class MainActivity extends AppCompatActivity
             }
         });
         inputDialog.show();
+    }
+
+    private void checkTTS() {
+        Intent check = new Intent();
+        check.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
+        startActivityForResult(check, CHECK_CODE);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == CHECK_CODE) {
+            if (resultCode == TextToSpeech.Engine.CHECK_VOICE_DATA_PASS) {
+                speaker = new Speaker(this);
+            } else {
+                Intent install = new Intent();
+                install.setAction(TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA);
+                startActivity(install);
+            }
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        speaker.destroy();
     }
 }
