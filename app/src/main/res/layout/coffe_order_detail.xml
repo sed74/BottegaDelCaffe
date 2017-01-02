@@ -12,13 +12,14 @@
 
         <Spinner
             android:id="@+id/caffe_name_spinner"
+            style="@style/Widget.AppCompat.Spinner"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="1"
             android:text="@string/caffe_normale"
             android:textColor="@android:color/black"
-            android:textSize="16dp"
+            android:textSize="24dp"
             android:textStyle="bold" />
 
         <com.example.federicomarchesi.bottegadelcaffe.NumberPickerView
@@ -50,7 +51,6 @@
     <CheckBox
         android:id="@+id/is_in_tazza_grande"
         style="@style/CheckBox"
-
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/linear_layout"

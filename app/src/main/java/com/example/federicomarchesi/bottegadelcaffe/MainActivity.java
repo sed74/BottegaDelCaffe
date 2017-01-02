@@ -28,45 +28,6 @@ public class MainActivity extends AppCompatActivity
     TextToSpeech textToSpeech;
     private Speaker speaker;
 
-    /**
-     * Handles playback of all the sound files
-     */
-    private TextToSpeech mTextToSpeech;
-
-    /**
-     * Handles audio focus when playing a sound file
-     */
-    private AudioManager mAudioManager;
-
-    /**
-     * This listener gets triggered when the {@link MediaPlayer} has completed
-     * playing the audio file.
-     */
-    /**
-     * This listener gets triggered whenever the audio focus changes
-     * (i.e., we gain or lose audio focus because of another app or device).
-     */
-    private AudioManager.OnAudioFocusChangeListener mOnAudioFocusChangeListener =
-            new AudioManager.OnAudioFocusChangeListener() {
-                @Override
-                public void onAudioFocusChange(int i) {
-                    switch (i) {
-                        case AudioManager.AUDIOFOCUS_GAIN:
-                        case AudioManager.AUDIOFOCUS_GAIN_TRANSIENT:
-//                            startMediaPlayer();
-                            break;
-                        case AudioManager.AUDIOFOCUS_LOSS:
-                        case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK:
-//                            releaseMediaPlayer();
-                            break;
-                        case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT:
-//                            pauseMediaPlayer();
-                            break;
-                    }
-
-                }
-            };
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

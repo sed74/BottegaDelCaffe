@@ -2,6 +2,7 @@ package com.example.federicomarchesi.bottegadelcaffe;
 
 import android.content.Context;
 import android.media.AudioManager;
+import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.UtteranceProgressListener;
 
@@ -80,9 +81,7 @@ public class Speaker implements TextToSpeech.OnInitListener {
             public void onDone(String utteranceId) {
                 // Speaking stopped.
                 mAudioManager.abandonAudioFocus(mOnAudioFocusChangeListener);
-
             }
-
 
             @Override
             public void onError(String utteranceId) {
@@ -90,23 +89,23 @@ public class Speaker implements TextToSpeech.OnInitListener {
             }
         });
 
-        // Speak only if the TTS is ready
-        // and the user has allowed speech
-        int result = mAudioManager.requestAudioFocus(mOnAudioFocusChangeListener,
+        // Speak only if the TTS is ready and the user has allowed speech and the system allows.
+        int AudioFocusRequest = mAudioManager.requestAudioFocus(mOnAudioFocusChangeListener,
                 AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN_TRANSIENT);
 
-        if (ready && allowed && result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
-            HashMap<String, String> hash = new HashMap<>();
-            hash.put(TextToSpeech.Engine.KEY_PARAM_STREAM,
-                    String.valueOf(AudioManager.STREAM_NOTIFICATION));
-//            tts.speak(text, TextToSpeech.QUEUE_ADD, hash);
-            tts.speak(text, TextToSpeech.QUEUE_ADD, null, "Bottega");
+        if (ready && allowed && AudioFocusRequest == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
+
+            Bundle bundle = new Bundle();
+            bundle.putInt(TextToSpeech.Engine.KEY_PARAM_STREAM, AudioManager.STREAM_MUSIC);
+            bundle.putInt(TextToSpeech.Engine.KEY_PARAM_VOLUME, 1);
+
+            tts.speak(text, TextToSpeech.QUEUE_ADD, bundle, "Bottega");
         }
     }
 
     public void pause(int duration) {
-        tts.playSilence(duration, TextToSpeech.QUEUE_ADD, null);
-//        tts.playSilentUtterance(duration, TextToSpeech.QUEUE_ADD, "1");
+//        tts.playSilence(duration, TextToSpeech.QUEUE_ADD, null);
+        tts.playSilentUtterance(duration, TextToSpeech.QUEUE_ADD, "Bottega");
     }
 
     void stopTTS() {
