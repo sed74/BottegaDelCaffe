@@ -26,7 +26,6 @@ public class MainActivity extends AppCompatActivity
     ArrayList<CoffeeType> arrayCoffeeType = new ArrayList<>();
     CoffeeAdapter coffeeAdapter;
     TextToSpeech textToSpeech;
-    boolean isFabShowing;
     private Speaker speaker;
 
     /**

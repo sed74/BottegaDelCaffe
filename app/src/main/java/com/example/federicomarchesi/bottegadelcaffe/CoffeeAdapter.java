@@ -122,16 +122,11 @@ public class CoffeeAdapter extends ArrayAdapter<CoffeeType> {
 
         // Recupero caffé
 
-//        String caffe = totCoffeeNormali + ", " +
-//                (totCoffeeMacchiati > 0 ? totCoffeeMacchiati + " macchia, " : "") +
-//                (totCoffeeInGrande > 0 ? totCoffeeInGrande + " in grande, " : "") +
-//                (totAmerica > 0 ? totAmerica + " america, " : "");
-
         String caffe = totCoffeeNormali + ", ";
         if (totCoffeeMacchiati == 0 && totCoffeeMacchiatiCon > 0) {
             caffe += totCoffeeMacchiatiCon + " macchia con,";
         }
-        if (totCoffeeMacchiati > 0 && totCoffeeMacchiatiCon > 0) {
+        if (totCoffeeMacchiati > 0 && totCoffeeMacchiatiCon >= 0) {
             caffe += totCoffeeMacchiati + totCoffeeMacchiatiCon + " macchia,";
         }
         if (totCoffeeMacchiati > 0 && totCoffeeMacchiatiCon == 0) {
