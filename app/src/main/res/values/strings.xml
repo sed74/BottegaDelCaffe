@@ -20,5 +20,7 @@
     <string name="macchiato">Macchiato</string>
     <string name="macchiatoCon">Cacao</string>
     <string name="in_tazza_grande">In tazza grande</string>
+    <string name="add_coffee">Aggiungi</string>
+    <string name="place_order">Pronuncia ordine</string>
 
 </resources>

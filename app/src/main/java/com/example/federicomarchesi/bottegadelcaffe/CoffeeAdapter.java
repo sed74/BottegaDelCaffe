@@ -117,14 +117,28 @@ public class CoffeeAdapter extends ArrayAdapter<CoffeeType> {
         int totCoffeeNormali = getCoffeeNumberByType(0);
         int totCoffeeInGrande = getCoffeeNumberByType(0, false, false, true);
         int totCoffeeMacchiati = getCoffeeNumberByType(0, true, false, false);
+        int totCoffeeMacchiatiCon = getCoffeeNumberByType(0, true, true, false);
         int totAmerica = getCoffeeNumberByType(1);
 
         // Recupero caffé
 
-        String caffe = totCoffeeNormali + ", " +
-                (totCoffeeMacchiati > 0 ? totCoffeeMacchiati + " macchia, " : "") +
-                (totCoffeeInGrande > 0 ? totCoffeeInGrande + " in grande, " : "") +
-                (totAmerica > 0 ? totAmerica + " america, " : "");
+//        String caffe = totCoffeeNormali + ", " +
+//                (totCoffeeMacchiati > 0 ? totCoffeeMacchiati + " macchia, " : "") +
+//                (totCoffeeInGrande > 0 ? totCoffeeInGrande + " in grande, " : "") +
+//                (totAmerica > 0 ? totAmerica + " america, " : "");
+
+        String caffe = totCoffeeNormali + ", ";
+        if (totCoffeeMacchiati == 0 && totCoffeeMacchiatiCon > 0) {
+            caffe += totCoffeeMacchiatiCon + " macchia con,";
+        }
+        if (totCoffeeMacchiati > 0 && totCoffeeMacchiatiCon > 0) {
+            caffe += totCoffeeMacchiati + totCoffeeMacchiatiCon + " macchia,";
+        }
+        if (totCoffeeMacchiati > 0 && totCoffeeMacchiatiCon == 0) {
+            caffe += totCoffeeMacchiati + " macchia,";
+        }
+        caffe += (totCoffeeInGrande > 0 ? totCoffeeInGrande + " in grande, " : "");
+        caffe += (totAmerica > 0 ? totAmerica + " america, " : "");
 
         return caffe;
     }

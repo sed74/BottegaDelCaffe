@@ -97,7 +97,7 @@
         jumboMode="true"
         optimize="true"
         revision="25.0.2"
-        sha1="a019fe0eb049b8563422cb6f7c56433dd5e52b1c">
+        sha1="70cf20b207270537d901bca01c28e0b449b5ed00">
         <dex dex="D:\Users\Marchesi\AndroidStudioProjects\BottegaDelCaffe\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run-bootstrap_0ca45a0a376692230d60f92618c1d009ae87f08b\classes.dex" />
     </item>
     <item
@@ -133,7 +133,7 @@
         jumboMode="true"
         optimize="true"
         revision="25.0.2"
-        sha1="9745591b55b13dc09ad2b7f8988abec4747bff8f">
+        sha1="0d88479a81af8e6fdc1d2d377803d02baf582f9a">
         <dex dex="D:\Users\Marchesi\AndroidStudioProjects\BottegaDelCaffe\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run_fd0ae511be4617fbd2aeab8b5cf057a396b1407e\classes.dex" />
     </item>
 

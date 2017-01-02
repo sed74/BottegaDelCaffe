@@ -44,7 +44,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/linear_layout"
         android:layout_toRightOf="@id/is_macchiato"
-        android:enabled="false"
+
         android:text="@string/macchiatoCon" />
 
     <CheckBox

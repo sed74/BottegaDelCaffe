@@ -15,7 +15,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -24,7 +23,6 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private final int CHECK_CODE = 0x1;
-    DBHelper mydb;
     ArrayList<CoffeeType> arrayCoffeeType = new ArrayList<>();
     CoffeeAdapter coffeeAdapter;
     TextToSpeech textToSpeech;
@@ -169,31 +167,31 @@ public class MainActivity extends AppCompatActivity
 //        mydb.saveAllCoffeeTypesToDB(arrayCoffeeType);
     }
 
-    private void intDB() {
-        mydb = new DBHelper(this);
-        arrayCoffeeType = mydb.getAllCoffeeTypes();
-
-        coffeeAdapter = new CoffeeAdapter(this, arrayCoffeeType);
-
-        ListView obj = (ListView) findViewById(R.id.list);
-        obj.setAdapter(coffeeAdapter);
-
-        obj.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-                // TODO Auto-generated method stub
-                int id_To_Search = arg2 + 1;
-
-                Bundle dataBundle = new Bundle();
-                dataBundle.putInt("id", id_To_Search);
-
-//                Intent intent = new Intent(getApplicationContext(),DisplayContact.class);
+//    private void intDB() {
+//        mydb = new DBHelper(this);
+//        arrayCoffeeType = mydb.getAllCoffeeTypes();
 //
-//                intent.putExtras(dataBundle);
-//                startActivity(intent);
-            }
-        });
-    }
+//        coffeeAdapter = new CoffeeAdapter(this, arrayCoffeeType);
+//
+//        ListView obj = (ListView) findViewById(R.id.list);
+//        obj.setAdapter(coffeeAdapter);
+//
+//        obj.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+//                // TODO Auto-generated method stub
+//                int id_To_Search = arg2 + 1;
+//
+//                Bundle dataBundle = new Bundle();
+//                dataBundle.putInt("id", id_To_Search);
+//
+////                Intent intent = new Intent(getApplicationContext(),DisplayContact.class);
+////
+////                intent.putExtras(dataBundle);
+////                startActivity(intent);
+//            }
+//        });
+//    }
 
     @Override
     public void onBackPressed() {
@@ -254,34 +252,34 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    private void onCreateNewCoffeeType() {
-//        final Player player = getCurrentPlayer();
-        InputDialog inputDialog = new InputDialog(this, R.string.coffe_type_name, R.string.coffe_type_name);
-//        inputDialog.setInitialInput(player.getName());
-        inputDialog.setInputListener(new InputDialog.InputListener() {
-            @Override
-            public InputDialog.ValidationResult isInputValid(String newCoffeeType) {
-                if (newCoffeeType.isEmpty()) {
-                    return new InputDialog.ValidationResult(false, R.string.error_empty_name);
-                }
-//                Player playerWithSameName = gameManager.findPlayerByName(newCoffeeType);
-//                if (playerWithSameName != null && playerWithSameName.getId() != getCurrentPlayer().getId()) {
-//                    return new InputDialog.ValidationResult(false, R.string.error_duplicate_name);
+//    private void onCreateNewCoffeeType() {
+////        final Player player = getCurrentPlayer();
+//        InputDialog inputDialog = new InputDialog(this, R.string.coffe_type_name, R.string.coffe_type_name);
+////        inputDialog.setInitialInput(player.getName());
+//        inputDialog.setInputListener(new InputDialog.InputListener() {
+//            @Override
+//            public InputDialog.ValidationResult isInputValid(String newCoffeeType) {
+//                if (newCoffeeType.isEmpty()) {
+//                    return new InputDialog.ValidationResult(false, R.string.error_empty_name);
 //                }
-                return new InputDialog.ValidationResult(true, 0);
-            }
-
-            @Override
-            public void onConfirm(String newCoffeeType, String newCoffeeDescr) {
-//                DBHelper db = new DBHelper(MainActivity.this);
-//                db.insertCoffeeType(newCoffeeType, newCoffeeDescr);
-                arrayCoffeeType.add(new CoffeeType(newCoffeeType, newCoffeeDescr));
-                coffeeAdapter.notifyDataSetChanged();
-//                Toast.makeText(MainActivity.this, "records: " + db.numberOfRows(), Toast.LENGTH_SHORT).show();
-            }
-        });
-        inputDialog.show();
-    }
+////                Player playerWithSameName = gameManager.findPlayerByName(newCoffeeType);
+////                if (playerWithSameName != null && playerWithSameName.getId() != getCurrentPlayer().getId()) {
+////                    return new InputDialog.ValidationResult(false, R.string.error_duplicate_name);
+////                }
+//                return new InputDialog.ValidationResult(true, 0);
+//            }
+//
+//            @Override
+//            public void onConfirm(String newCoffeeType, String newCoffeeDescr) {
+////                DBHelper db = new DBHelper(MainActivity.this);
+////                db.insertCoffeeType(newCoffeeType, newCoffeeDescr);
+//                arrayCoffeeType.add(new CoffeeType(newCoffeeType, newCoffeeDescr));
+//                coffeeAdapter.notifyDataSetChanged();
+////                Toast.makeText(MainActivity.this, "records: " + db.numberOfRows(), Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//        inputDialog.show();
+//    }
 
     private void checkTTS() {
         Intent check = new Intent();
