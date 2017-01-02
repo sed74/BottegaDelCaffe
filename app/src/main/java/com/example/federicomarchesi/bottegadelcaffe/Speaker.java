@@ -41,7 +41,7 @@ public class Speaker implements TextToSpeech.OnInitListener {
             };
 
 
-    public Speaker(Context context) {
+    Speaker(Context context) {
         tts = new TextToSpeech(context, this);
         mAudioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
         mContext = context;
