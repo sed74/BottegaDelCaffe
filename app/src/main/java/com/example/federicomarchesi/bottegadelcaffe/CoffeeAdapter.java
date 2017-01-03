@@ -28,6 +28,7 @@ public class CoffeeAdapter extends ArrayAdapter<CoffeeType> {
         mCoffeTypes = coffeeArray;
     }
 
+
     @NonNull
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
@@ -121,11 +122,14 @@ public class CoffeeAdapter extends ArrayAdapter<CoffeeType> {
         int totAmerica = getCoffeeNumberByType(1);
 
         // Recupero caffé
-        String caffe = totCoffeeNormali + ", ";
+        String caffe = "";
+        if (totCoffeeNormali > 0) {
+            caffe = totCoffeeNormali + ", ";
+        }
         if (totCoffeeMacchiati == 0 && totCoffeeMacchiatiCon > 0) {
             caffe += totCoffeeMacchiatiCon + " macchia con,";
         }
-        if (totCoffeeMacchiati > 0 && totCoffeeMacchiatiCon >= 0) {
+        if (totCoffeeMacchiati > 0 && totCoffeeMacchiatiCon > 0) {
             caffe += totCoffeeMacchiati + totCoffeeMacchiatiCon + " macchia,";
         }
         if (totCoffeeMacchiati > 0 && totCoffeeMacchiatiCon == 0) {
