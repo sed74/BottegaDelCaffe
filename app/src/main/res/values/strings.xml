@@ -22,5 +22,6 @@
     <string name="in_tazza_grande">In tazza grande</string>
     <string name="add_coffee">Aggiungi</string>
     <string name="place_order">Pronuncia ordine</string>
+    <string name="show_toast">Mostra toast</string>
 
 </resources>

@@ -13,8 +13,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -27,6 +25,7 @@ public class MainActivity extends AppCompatActivity
     CoffeeAdapter coffeeAdapter;
     TextToSpeech textToSpeech;
     private Speaker speaker;
+    private boolean mShowToast = false;
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
@@ -78,7 +77,7 @@ public class MainActivity extends AppCompatActivity
         coffeeAdapter.notifyDataSetChanged();
     }
 
-    private void init(){
+    private void init() {
         arrayCoffeeType.add(new CoffeeType());
 
         coffeeAdapter = new CoffeeAdapter(this, arrayCoffeeType);
@@ -114,9 +113,15 @@ public class MainActivity extends AppCompatActivity
                         coffees += arrayCoffeeType.get(i).getNumberOrdered() + "\n";
                     }
 
-                    coffees = coffeeAdapter.getCoffeeOrder();
-                    Toast.makeText(MainActivity.this, "Caffè normali: " + coffees
-                            , Toast.LENGTH_SHORT).show();
+                    coffees = coffeeAdapter.getCoffeeOrder().trim();
+                    if (coffees.endsWith(",")) {
+                        coffees = coffees.substring(0, coffees.length() - 1);
+                    }
+                    if (mShowToast) {
+                        Toast.makeText(MainActivity.this, "Ordine: " + coffees
+                                , Toast.LENGTH_SHORT).show();
+                    }
+                    checkTTS();
                     speaker.allow(true);
                     speaker.speak(coffees);
 
@@ -172,9 +177,10 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-//        getMenuInflater().inflate(R.menu.main, menu);
+        getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -184,8 +190,10 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        if (id == R.id.show_toast) {
+            mShowToast = !item.isChecked();
+            item.setChecked(!item.isChecked());
+
         }
 
         return super.onOptionsItemSelected(item);

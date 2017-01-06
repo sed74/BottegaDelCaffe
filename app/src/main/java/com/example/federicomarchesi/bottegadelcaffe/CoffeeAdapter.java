@@ -79,7 +79,6 @@ public class CoffeeAdapter extends ArrayAdapter<CoffeeType> {
                 switch (buttonView.getId()) {
                     case R.id.is_macchiato: {
                         mCoffeTypes.get(position).setIsMacchiato(isChecked);
-                        notifyDataSetChanged();
                         View parentView = (View) buttonView.getParent();
                         CheckBox macchiatoCon = (CheckBox) parentView.findViewById(R.id.is_macchiato_con);
                         macchiatoCon.setEnabled(isChecked);
@@ -91,13 +90,17 @@ public class CoffeeAdapter extends ArrayAdapter<CoffeeType> {
                         macchiatoCon.setChecked(false && !isChecked);
                         break;
                     }
-                    case R.id.is_macchiato_con:
-                    case R.id.is_in_tazza_grande: {
+                    case R.id.is_macchiato_con: {
                         mCoffeTypes.get(position).setIsMacchiatoCon(isChecked);
-                        notifyDataSetChanged();
+
+                    }
+                    case R.id.is_in_tazza_grande: {
+                        mCoffeTypes.get(position).setIsInTazzaGrande(isChecked);
                         break;
                     }
+
                 }
+                notifyDataSetChanged();
             }
         };
         CheckBox isMacchiato = (CheckBox) listItemView.findViewById(R.id.is_macchiato);
