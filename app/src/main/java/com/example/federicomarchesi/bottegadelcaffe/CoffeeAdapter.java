@@ -9,6 +9,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.Spinner;
 
 import java.util.ArrayList;
@@ -20,6 +21,7 @@ import java.util.ArrayList;
 public class CoffeeAdapter extends ArrayAdapter<CoffeeType> {
 
     private ArrayList<CoffeeType> mCoffeTypes;
+    private CheckBox.OnCheckedChangeListener mCheckBoxOnClickListener;
 
 
     public CoffeeAdapter(Context context, ArrayList<CoffeeType> coffeeArray) {
@@ -62,49 +64,55 @@ public class CoffeeAdapter extends ArrayAdapter<CoffeeType> {
 //                mCoffeTypes.get(position).setCoffeeTypeId();
             }
         });
+        ImageView deleteImage = (ImageView) listItemView.findViewById(R.id.delete_button);
+        deleteImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mCoffeTypes.remove(position);
+                notifyDataSetChanged();
+            }
+        });
 
+        mCheckBoxOnClickListener = new CheckBox.OnCheckedChangeListener() {
+
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                switch (buttonView.getId()) {
+                    case R.id.is_macchiato: {
+                        mCoffeTypes.get(position).setIsMacchiato(isChecked);
+                        notifyDataSetChanged();
+                        View parentView = (View) buttonView.getParent();
+                        CheckBox macchiatoCon = (CheckBox) parentView.findViewById(R.id.is_macchiato_con);
+                        macchiatoCon.setEnabled(isChecked);
+                        if (isChecked) {
+                            macchiatoCon.setVisibility(View.VISIBLE);
+                        } else {
+                            macchiatoCon.setVisibility(View.GONE);
+                        }
+                        macchiatoCon.setChecked(false && !isChecked);
+                        break;
+                    }
+                    case R.id.is_macchiato_con:
+                    case R.id.is_in_tazza_grande: {
+                        mCoffeTypes.get(position).setIsMacchiatoCon(isChecked);
+                        notifyDataSetChanged();
+                        break;
+                    }
+                }
+            }
+        };
         CheckBox isMacchiato = (CheckBox) listItemView.findViewById(R.id.is_macchiato);
-
-        isMacchiato.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                mCoffeTypes.get(position).setIsMacchiato(isChecked);
-                notifyDataSetChanged();
-                View parentView = (View) buttonView.getParent();
-                CheckBox macchiatoCon = (CheckBox) parentView.findViewById(R.id.is_macchiato_con);
-                macchiatoCon.setEnabled(isChecked);
-                macchiatoCon.setChecked(false);
-            }
-        });
-        isMacchiato.setChecked(currentCoffee.getIsMacchiato());
-
+        isMacchiato.setOnCheckedChangeListener(mCheckBoxOnClickListener);
         CheckBox isMacchiatoCon = (CheckBox) listItemView.findViewById(R.id.is_macchiato_con);
-
-        isMacchiatoCon.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                mCoffeTypes.get(position).setIsMacchiatoCon(isChecked);
-                notifyDataSetChanged();
-            }
-        });
-        isMacchiatoCon.setChecked(currentCoffee.getIsMacchiatoCon());
-
+        isMacchiatoCon.setOnCheckedChangeListener(mCheckBoxOnClickListener);
         CheckBox isInTazzaGrande = (CheckBox) listItemView.findViewById(R.id.is_in_tazza_grande);
-
-        isInTazzaGrande.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                mCoffeTypes.get(position).setIsInTazzaGrande(isChecked);
-                notifyDataSetChanged();
-            }
-        });
-        isInTazzaGrande.setChecked(currentCoffee.getIsInTazzaGrande());
+        isInTazzaGrande.setOnCheckedChangeListener(mCheckBoxOnClickListener);
 
         NumberPickerView numberPickerView = (NumberPickerView)
                 listItemView.findViewById(R.id.number_picker);
         numberPickerView.setMinValue(0);
         numberPickerView.setMaxValue(10);
 
+        numberPickerView.setValue(currentCoffee.getNumberOrdered());
 
         numberPickerView.setOnValueChangeListener(new NumberPickerView.OnValueChangeListener() {
             @Override
@@ -124,10 +132,11 @@ public class CoffeeAdapter extends ArrayAdapter<CoffeeType> {
         int totCoffeeMacchiati = getCoffeeNumberByType(0, true, false, false);
         int totCoffeeMacchiatiCon = getCoffeeNumberByType(0, true, true, false);
         int totAmerica = getCoffeeNumberByType(1);
+        int totOrzo = getCoffeeNumberByType(2);
 
         // Recupero caffé
         String caffe = "";
-        if (totCoffeeNormali > 0) {
+        if (totCoffeeNormali > 0 && totCoffeeNormali != totCoffeeMacchiati + totCoffeeMacchiatiCon) {
             caffe = totCoffeeNormali + ", ";
         }
         if (totCoffeeMacchiati == 0 && totCoffeeMacchiatiCon > 0) {
@@ -141,6 +150,7 @@ public class CoffeeAdapter extends ArrayAdapter<CoffeeType> {
         }
         caffe += (totCoffeeInGrande > 0 ? totCoffeeInGrande + " in grande, " : "");
         caffe += (totAmerica > 0 ? totAmerica + " america, " : "");
+        caffe += (totOrzo > 0 ? totOrzo + " orzo, " : "");
 
         return caffe;
     }

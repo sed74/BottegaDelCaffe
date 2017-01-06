@@ -43,10 +43,10 @@
         style="@style/CheckBox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/linear_layout"
-        android:layout_toRightOf="@id/is_macchiato"
+        android:layout_below="@id/is_macchiato"
         android:enabled="false"
-        android:text="@string/macchiatoCon" />
+        android:text="@string/macchiatoCon"
+        android:visibility="gone" />
 
     <CheckBox
         android:id="@+id/is_in_tazza_grande"
@@ -54,7 +54,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/linear_layout"
-        android:layout_toRightOf="@id/is_macchiato_con"
+        android:layout_toRightOf="@id/is_macchiato"
         android:text="@string/in_tazza_grande" />
 
+    <ImageView
+        android:id="@+id/delete_button"
+        android:layout_width="@dimen/delete_max_width"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@id/linear_layout"
+        android:layout_marginBottom="@dimen/margin_default_half"
+        android:layout_marginLeft="@dimen/margin_default_half"
+        android:layout_marginRight="@dimen/margin_default_half"
+        android:background="@color/colorPrimary"
+        android:src="@android:drawable/ic_menu_delete" />
 </RelativeLayout>

@@ -18,12 +18,15 @@ public class CoffeeType {
         mCoffeeName = name;
         mCoffeeDescription = descr;
     }
+
     public CoffeeType(String name) {
         mCoffeeName = name;
     }
-    public CoffeeType() {
 
+    public CoffeeType() {
+        mNumberOrdered = 1;
     }
+
     public CoffeeType(String name, String descr, boolean isMacchiato, boolean isMacchiatoCon, boolean isInTazzaGrande) {
         mCoffeeName = name;
         mCoffeeDescription = descr;

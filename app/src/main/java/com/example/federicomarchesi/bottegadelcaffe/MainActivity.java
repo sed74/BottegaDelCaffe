@@ -86,8 +86,6 @@ public class MainActivity extends AppCompatActivity
         ListView obj = (ListView) findViewById(R.id.list);
         obj.setAdapter(coffeeAdapter);
         checkTTS();
-
-
     }
 
     public void onPause() {
