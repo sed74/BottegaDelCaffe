@@ -70,6 +70,10 @@ public class CoffeeAdapter extends ArrayAdapter<CoffeeType> {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 mCoffeTypes.get(position).setIsMacchiato(isChecked);
                 notifyDataSetChanged();
+                View parentView = (View) buttonView.getParent();
+                CheckBox macchiatoCon = (CheckBox) parentView.findViewById(R.id.is_macchiato_con);
+                macchiatoCon.setEnabled(isChecked);
+                macchiatoCon.setChecked(false);
             }
         });
         isMacchiato.setChecked(currentCoffee.getIsMacchiato());
