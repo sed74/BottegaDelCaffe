@@ -1,7 +1,6 @@
 package com.example.federicomarchesi.bottegadelcaffe;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +23,7 @@ public class CoffeeAdapter extends ArrayAdapter<CoffeeType> {
     private CheckBox.OnCheckedChangeListener mCheckBoxOnClickListener;
 
 
+
     public CoffeeAdapter(Context context, ArrayList<CoffeeType> coffeeArray) {
         super(context, 0, coffeeArray);
 
@@ -31,7 +31,6 @@ public class CoffeeAdapter extends ArrayAdapter<CoffeeType> {
     }
 
 
-    @NonNull
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         View listItemView = convertView;
@@ -52,10 +51,21 @@ public class CoffeeAdapter extends ArrayAdapter<CoffeeType> {
             // Apply the adapter to the spinner
             spinner.setAdapter(adapter);
         }
+        final View finalListItemView = listItemView;
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 //                mCoffeTypes.get(position).setCoffeeName(parent.getItemAtPosition(position).toString());
+                CheckBox isMacchiato = (CheckBox) finalListItemView.findViewById(R.id.is_macchiato);
+                CheckBox isInTazzaGrande = (CheckBox) finalListItemView.findViewById(R.id.is_in_tazza_grande);
+                isMacchiato.setEnabled(id == 0);
+                isInTazzaGrande.setEnabled(id == 0);
+                if (isMacchiato != null) {
+                    if (id != 0) {
+                        isMacchiato.setChecked(false);
+                        isInTazzaGrande.setChecked(false);
+                    }
+                }
                 currentCoffee.setCoffeeTypeId(id);
             }
 
@@ -78,7 +88,8 @@ public class CoffeeAdapter extends ArrayAdapter<CoffeeType> {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 switch (buttonView.getId()) {
                     case R.id.is_macchiato: {
-                        mCoffeTypes.get(position).setIsMacchiato(isChecked);
+                        currentCoffee.setIsMacchiato(isChecked);
+//                        mCoffeTypes.get(position).setIsMacchiato(isChecked);
                         View parentView = (View) buttonView.getParent();
                         CheckBox macchiatoCon = (CheckBox) parentView.findViewById(R.id.is_macchiato_con);
                         macchiatoCon.setEnabled(isChecked);
@@ -91,11 +102,14 @@ public class CoffeeAdapter extends ArrayAdapter<CoffeeType> {
                         break;
                     }
                     case R.id.is_macchiato_con: {
-                        mCoffeTypes.get(position).setIsMacchiatoCon(isChecked);
+                        currentCoffee.setIsMacchiatoCon(isChecked);
+//                        mCoffeTypes.get(position).setIsMacchiatoCon(isChecked);
+                        break;
 
                     }
                     case R.id.is_in_tazza_grande: {
-                        mCoffeTypes.get(position).setIsInTazzaGrande(isChecked);
+                        currentCoffee.setIsInTazzaGrande(isChecked);
+//                        mCoffeTypes.get(position).setIsInTazzaGrande(isChecked);
                         break;
                     }
 
