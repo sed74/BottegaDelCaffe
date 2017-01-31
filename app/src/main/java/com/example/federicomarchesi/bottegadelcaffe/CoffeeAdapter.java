@@ -144,7 +144,7 @@ public class CoffeeAdapter extends ArrayAdapter<CoffeeType> {
 
     public String getCoffeeOrder() {
         // Recupero Caffè normali
-        int totCoffeeNormali = getCoffeeNumberByType(0);
+        int totCoffeeNormali = getCoffeeNumberByType(0, false, false, false);
         int totCoffeeInGrande = getCoffeeNumberByType(0, false, false, true);
         int totCoffeeMacchiati = getCoffeeNumberByType(0, true, false, false);
         int totCoffeeMacchiatiCon = getCoffeeNumberByType(0, true, true, false);
@@ -153,18 +153,28 @@ public class CoffeeAdapter extends ArrayAdapter<CoffeeType> {
 
         // Recupero caffé
         String caffe = "";
-        if (totCoffeeNormali > 0 && totCoffeeNormali != totCoffeeMacchiati + totCoffeeMacchiatiCon) {
+//        if (totCoffeeNormali > 0 && totCoffeeNormali != totCoffeeMacchiati + totCoffeeMacchiatiCon) {
+//            caffe = totCoffeeNormali + ", ";
+//        }
+//        if (totCoffeeMacchiati == 0 && totCoffeeMacchiatiCon > 0) {
+//            caffe += totCoffeeMacchiatiCon + " macchia con,";
+//        }
+//        if (totCoffeeMacchiati > 0 && totCoffeeMacchiatiCon > 0) {
+//            caffe += totCoffeeMacchiati + totCoffeeMacchiatiCon + " macchia,";
+//        }
+//        if (totCoffeeMacchiati > 0 && totCoffeeMacchiatiCon == 0) {
+//            caffe += totCoffeeMacchiati + " macchia,";
+//        }
+        if (totCoffeeNormali > 0) {
             caffe = totCoffeeNormali + ", ";
         }
-        if (totCoffeeMacchiati == 0 && totCoffeeMacchiatiCon > 0) {
-            caffe += totCoffeeMacchiatiCon + " macchia con,";
-        }
-        if (totCoffeeMacchiati > 0 && totCoffeeMacchiatiCon > 0) {
-            caffe += totCoffeeMacchiati + totCoffeeMacchiatiCon + " macchia,";
-        }
-        if (totCoffeeMacchiati > 0 && totCoffeeMacchiatiCon == 0) {
+        if (totCoffeeMacchiati > 0) {
             caffe += totCoffeeMacchiati + " macchia,";
         }
+        if (totCoffeeMacchiatiCon > 0) {
+            caffe += totCoffeeMacchiatiCon + " macchia con,";
+        }
+
         caffe += (totCoffeeInGrande > 0 ? totCoffeeInGrande + " in grande, " : "");
         caffe += (totAmerica > 0 ? totAmerica + " america, " : "");
         caffe += (totOrzo > 0 ? totOrzo + " orzo, " : "");
