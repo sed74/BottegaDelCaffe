@@ -26,11 +26,7 @@ public class MainActivity extends AppCompatActivity
     TextToSpeech textToSpeech;
     private Speaker speaker;
     private boolean mShowToast = false;
-    private String version = "1.1";
 
-    private void methodInVersion1() {
-
-    }
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
