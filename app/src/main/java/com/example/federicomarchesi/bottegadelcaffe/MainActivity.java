@@ -28,6 +28,9 @@ public class MainActivity extends AppCompatActivity
     private boolean mShowToast = false;
     private String version = "1.1";
 
+    private void methodInVersion1() {
+
+    }
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
