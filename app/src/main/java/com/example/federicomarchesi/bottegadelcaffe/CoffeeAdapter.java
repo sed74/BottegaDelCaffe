@@ -169,7 +169,12 @@ public class CoffeeAdapter extends ArrayAdapter<CoffeeType> {
             caffe = totCoffeeNormali + ", ";
         }
         if (totCoffeeMacchiati > 0) {
-            caffe += totCoffeeMacchiati + " macchia,";
+            if (totCoffeeMacchiati > 1) {
+                String temp = caffe;
+                caffe = totCoffeeMacchiati + " macchia," + temp + ",";
+            } else {
+                caffe += totCoffeeMacchiati + " macchia,";
+            }
         }
         if (totCoffeeMacchiatiCon > 0) {
             caffe += totCoffeeMacchiatiCon + " macchia con,";
